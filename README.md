@@ -1,7 +1,7 @@
 <h1 align="center">📷 Papitagram</h1>
 <p align="center">
-  <b>A lightweight PHP + MySQL app for posting images (“reels”), likes, comments, follows, basic profiles, and 1–1 chat. Built as a single-PHP-file style project—easy to run locally or drop onto shared hosting.</b><br>
-  <sub>Created by Ravinder Singh • Licensed under Authors license</sub>
+  <b>A lightweight PHP + MySQL app for posting images,reels, likes, comments, follows, basic profiles, and 1–1 chat. Built as a single-PHP-file style project—easy to run locally or drop onto shared hosting.</b><br>
+  <sub>Created by Ravinder Singh(ravindercjsingh@gmail.com) • Licensed under Authors license</sub>
 </p>
 
 <p align="center">
@@ -15,12 +15,12 @@
 ---
 
 ## Table of Contents
-- [Features](#-features)
-- [Requirements](#-requirements)
-- [Installation](#-installation)
-- [Screenshots](#-screenshots)
-- [License](#-license)
-- [Contributing](#-Contributing)
+- [Features](#features)
+- [Working Prototype](#-working-prototype)
+- [Tech Stack](#tech-stack)
+- [Installation](#installation)
+- [License](#license)
+- [Contributing](#contributing)
 
 ---
 
@@ -146,7 +146,11 @@ if ($conn->connect_error) {
 }
 ?>
 ```
-Put in the details accordingly, if you are using XAMPP use phpmyadmin based details and if you are deploying on shared hosting you can get these details from your hosting provider. Better create a new database for this application
+<p>Put in the details accordingly, if you are using XAMPP use phpmyadmin based details and if you are deploying on shared hosting you can get these details from your hosting provider. Better create a new database for this application</p>
+
+**4. Start your php server**
+If you are on local machine you can use built in php server (Command: `php -S localhost:8000`) but it would be better to use XAMPP, rest if you are uploading it too shared hosting you can directly upload the folder in `public_html` and everything will be working.
+
 ---
 ## License
 This project is licensed under the GNU Affero General Public License v3.0 (AGPL-3.0-only).
@@ -170,8 +174,8 @@ I ❤️ contributions! Whether it's fixing bugs, improving documentation, or ad
 
 2. **Clone your fork**  
    ```bash
-   git clone https://github.com/<your-username>/addtopdf
-   cd addtopdf
+   git clone https://github.com/whoravinder/papitagram
+   
    ```  
 
 3. **Create a new branch**  
@@ -206,7 +210,7 @@ I ❤️ contributions! Whether it's fixing bugs, improving documentation, or ad
 - **Follow the license**: By contributing, you agree that your contributions will be licensed under the same license as this project (**AGPL-3.0-only**).  
 - Keep PRs focused: One feature or fix per pull request.  
 - Use clear commit messages: `Add:`, `Fix:`, `Update:`, `Docs:` prefixes are encouraged.  
-- Respect the project scope: New features should align with the purpose of **Add to PDF**.  
+- Respect the project scope: New features should align with the purpose of **Papitagram**.  
 
 ---
 
@@ -223,7 +227,7 @@ If you find a bug:
 ---
 
 ### Feature Requests
-Have an idea to improve **Add to PDF**?  
+Have an idea to improve **Papitagram**?  
 - Open a new issue labeled `enhancement`  
 - Clearly explain the feature and why it’s beneficial  
 - If possible, outline how you might implement it  
