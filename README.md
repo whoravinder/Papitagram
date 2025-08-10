@@ -5,10 +5,12 @@
 </p>
 
 <p align="center">
-  <a href="https://www.python.org/downloads/"><img src="https://img.shields.io/badge/Python-3.8+-3776AB.svg?logo=python&logoColor=white"></a>
+  <a href="https://www.php.net/downloads.php"><img src="https://img.shields.io/badge/PHP-8%2B-777BB4.svg?logo=php&logoColor=white"></a>
+  <a href="https://dev.mysql.com/"><img src="https://img.shields.io/badge/MySQL-5.7%2B-4479A1.svg?logo=mysql&logoColor=white"></a>
   <a href="LICENSE"><img src="https://img.shields.io/badge/License-AGPL--3.0-orange.svg"></a>
-  <a href="#"><img src="https://img.shields.io/badge/Platform-Windows%20%7C%20macOS%20%7C%20Linux-blue.svg"></a>
+  <a href="#"><img src="https://img.shields.io/badge/Platform-Apache%20%7C%20Nginx%20%7C%20PHP%20Built--in-2ea44f.svg"></a>
 </p>
+
 
 ---
 
@@ -54,18 +56,97 @@
 
 **1. Clone or download** this repository:
 ```bash
-git clone https://github.com/whoravinder/addtopdf
-cd addtopdf
+git clone https://github.com/whoravinder/papitagram
 ```
-**2. Installing Requirements** :
-```bash
-pip install requirements.txt
+**2. Required Tables** :
+
+The application uses the following six tables:
+
+```sql
+-- 1. Users table
+CREATE TABLE users (
+  id INT(11) AUTO_INCREMENT PRIMARY KEY,
+  username VARCHAR(50) NOT NULL UNIQUE,
+  email VARCHAR(100) NOT NULL UNIQUE,
+  password VARCHAR(255) NOT NULL,
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  avatar_url VARCHAR(255) DEFAULT 'uploads/avatars/default.png',
+  bio TEXT
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- 2. Posts table
+CREATE TABLE posts (
+  id INT(11) AUTO_INCREMENT PRIMARY KEY,
+  user_id INT(11) NOT NULL,
+  media_url VARCHAR(255) NOT NULL,
+  media_type ENUM('image', 'video') NOT NULL,
+  caption TEXT,
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- 3. Likes table
+CREATE TABLE likes (
+  id INT(11) AUTO_INCREMENT PRIMARY KEY,
+  user_id INT(11) NOT NULL,
+  post_id INT(11) NOT NULL,
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE,
+  FOREIGN KEY (post_id) REFERENCES posts(id) ON DELETE CASCADE,
+  UNIQUE KEY uniq_like (user_id, post_id)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- 4. Comments table
+CREATE TABLE comments (
+  id INT(11) AUTO_INCREMENT PRIMARY KEY,
+  user_id INT(11) NOT NULL,
+  post_id INT(11) NOT NULL,
+  comment_text TEXT NOT NULL,
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE,
+  FOREIGN KEY (post_id) REFERENCES posts(id) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- 5. Follows table
+CREATE TABLE follows (
+  id INT(11) AUTO_INCREMENT PRIMARY KEY,
+  follower_id INT(11) NOT NULL,
+  following_id INT(11) NOT NULL,
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  FOREIGN KEY (follower_id) REFERENCES users(id) ON DELETE CASCADE,
+  FOREIGN KEY (following_id) REFERENCES users(id) ON DELETE CASCADE,
+  UNIQUE KEY uniq_follow (follower_id, following_id)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- 6. Messages table
+CREATE TABLE messages (
+  id INT(11) AUTO_INCREMENT PRIMARY KEY,
+  sender_id INT(11) NOT NULL,
+  receiver_id INT(11) NOT NULL,
+  message TEXT NOT NULL,
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  FOREIGN KEY (sender_id) REFERENCES users(id) ON DELETE CASCADE,
+  FOREIGN KEY (receiver_id) REFERENCES users(id) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 ```
-**3. Installing Requirements** :
-Open Command Prompt(win+r->cmd) and navigate to directory containing `main.py` file and then type in following command 
-```bash
-python main.py
+
+**3. Editing Config.php file** :
+Look for config.php file it will have following variables
+```php
+<?php
+$host = "localhost";
+$user = "";
+$pass = "";  
+$db = "";
+
+$conn = new mysqli($host, $user, $pass, $db);
+
+if ($conn->connect_error) {
+    die("Connection failed: " . $conn->connect_error);
+}
+?>
 ```
+Put in the details accordingly, if you are using XAMPP use phpmyadmin based details and if you are deploying on shared hosting you can get these details from your hosting provider. Better create a new database for this application
 ---
 ## License
 This project is licensed under the GNU Affero General Public License v3.0 (AGPL-3.0-only).
