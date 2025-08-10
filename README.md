@@ -36,7 +36,7 @@
 
 ---
 
-## 📸 Working Prototype
+## Working Prototype
 
 -Please visit <a href="https://lostdevs.io/papitagram"> this link for the prototype </a>
 
